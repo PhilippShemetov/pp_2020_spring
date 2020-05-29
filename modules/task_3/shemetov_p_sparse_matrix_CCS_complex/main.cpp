@@ -34,22 +34,23 @@ TEST(multi_matrix, TEST_NOT_SPARSE_MATRIX) {
 }
 
 TEST(multi_matrix, TEST_TIME_WITH_LARGE_NUMBERS_RANDOM_MATRIX) {
-    SparseMatrixCCS A(30, 50, 0.8);
-    SparseMatrixCCS B(50, 30, 0.8);
+    SparseMatrixCCS A(3200, 40, 0.8);
+    SparseMatrixCCS B(40, 1700, 0.8);
     A = A.transpose();
     B = B.transpose();
 
-    // tbb::tick_count start = tbb::tick_count::now();
-    // SparseMatrixCCS result = SparseMatrixCCS::MultiplySparseMatrixTBB
-    // (A, B);
-    // tbb::tick_count finish = tbb::tick_count::now();
-    // printf("Time of quiksort with parallel %f in sec\n",(finish-start).seconds());
 
-    // tbb::tick_count start2 = tbb::tick_count::now();
-    // SparseMatrixCCS result2 = SparseMatrixCCS::MultiplySparseMatrix
-    // (A, B);
-    // tbb::tick_count finish2 = tbb::tick_count::now();
-    // printf("Time of multiply matrix without parallel %f in sec\n", (finish2-start2).seconds());
+    tbb::tick_count start2 = tbb::tick_count::now();
+    SparseMatrixCCS result2 = SparseMatrixCCS::MultiplySparseMatrix
+    (A, B);
+    tbb::tick_count finish2 = tbb::tick_count::now();
+    printf("Time of multiply matrix without parallel %f in sec\n", (finish2-start2).seconds());
+
+    tbb::tick_count start = tbb::tick_count::now();
+    SparseMatrixCCS result = SparseMatrixCCS::MultiplySparseMatrixTBB
+    (A, B);
+    tbb::tick_count finish = tbb::tick_count::now();
+    printf("Time of quiksort with parallel %f in sec\n",(finish-start).seconds());
 
     // tbb::tick_count start3 = tbb::tick_count::now();
     // SparseMatrixCCS result3 = SparseMatrixCCS::MultiplySparseMatrixTBB
