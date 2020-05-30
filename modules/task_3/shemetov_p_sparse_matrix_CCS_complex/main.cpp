@@ -5,7 +5,6 @@
 #include <iostream>
 #include <vector>
 #include "tbb/tbb.h"
-#include <omp.h>
 #include "../../../modules/task_3/shemetov_p_sparse_matrix_CCS_complex/multi_matrix.h"
 
 
@@ -41,17 +40,17 @@ TEST(multi_matrix, TEST_TIME_WITH_LARGE_NUMBERS_RANDOM_MATRIX) {
     B = B.transpose();
 
 
-    double start2 = omp_get_wtime();
+    // tbb::tick_count start2 = tbb::tick_count::now();
     SparseMatrixCCS result2 = SparseMatrixCCS::MultiplySparseMatrix
     (A, B);
-    double finish2 = omp_get_wtime();
-    printf("Time of multiply matrix without parallel %f in sec\n", (finish2-start2));
+    // tbb::tick_count finish2 = tbb::tick_count::now();
+    // printf("Time of multiply matrix without parallel %f in sec\n", (finish2-start2).seconds());
 
-    double start = omp_get_wtime();
+    // tbb::tick_count start = tbb::tick_count::now();
     SparseMatrixCCS result = SparseMatrixCCS::MultiplySparseMatrixTBB
     (A, B);
-    double finish = omp_get_wtime();
-    printf("Time of multiply with parallel %f in sec\n",(finish-start));
+    // tbb::tick_count finish = tbb::tick_count::now();
+    // printf("Time of multiply matrix without parallel %f in sec\n", (finish-start).seconds());
 
     // tbb::tick_count start3 = tbb::tick_count::now();
     // SparseMatrixCCS result3 = SparseMatrixCCS::MultiplySparseMatrixTBB

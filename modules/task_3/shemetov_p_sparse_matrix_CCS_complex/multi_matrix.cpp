@@ -172,37 +172,15 @@ SparseMatrixCCS SparseMatrixCCS::MultiplySparseMatrixTBB(
     }
 
     SparseMatrixCCS resMatrix(A.m, B.n);
-    // int tempRowA;
     resMatrix.col_offsets.push_back(0);
     std::vector < std::vector < std::complex < double >> > tempVecValue(B.n);
     std::vector <std::vector<int>> tempVecRowIndex(B.n);
     std::vector<int> tempVecColPtr(B.n, 0);
 
-
-    // int gz = (B.n > 4) ? B.n / 4 : 1;
-    // tbb::parallel_for(0, static_cast<int>(B.n), gz,
-    // [&tempRowA, &tempVecValue, &tempVecRowIndex, &tempVecColPtr, A, B](int j) {
-    //         std::vector <std::complex<double>> tempDataVec(A.m + 1, {0, 0});
-    //         for (int k = B.col_offsets[j]; k < B.col_offsets[j + 1]; k++) {
-    //             tempRowA = B.row_index[k];
-    //             for (int i = A.col_offsets[tempRowA];
-    //                  i < A.col_offsets[tempRowA + 1]; i++) {
-    //                 tempDataVec[A.row_index[i]] += B.value[k] * A.value[i];
-    //             }
-    //         }
-    //         for (size_t count = 0; count < A.m; count++) {
-    //             if (tempDataVec[count].imag() != 0 ||
-    //                 tempDataVec[count].real() != 0) {
-    //                 tempVecRowIndex[j].push_back(count);
-    //                 tempVecValue[j].push_back(tempDataVec[count]);
-    //                 tempVecColPtr[j]++;
-    //             }
-    //         }
-    //     });
-    tbb::parallel_for(tbb::blocked_range<size_t>(0,B.n),
+    tbb::parallel_for(tbb::blocked_range<size_t>(0, B.n),
     [&tempVecValue, &tempVecRowIndex, &tempVecColPtr, A, B](tbb::blocked_range<size_t> r) {
         int tempRowA = 0;
-        for(size_t j = r.begin(); j < r.end(); j++ ){
+        for (size_t j = r.begin(); j < r.end(); j++) {
             std::vector <std::complex<double>> tempDataVec(A.m + 1, {0, 0});
             for (int k = B.col_offsets[j]; k < B.col_offsets[j + 1]; k++) {
                 tempRowA = B.row_index[k];
