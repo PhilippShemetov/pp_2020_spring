@@ -5,6 +5,7 @@
 #include <iostream>
 #include <vector>
 #include "tbb/tbb.h"
+#include <omp.h>
 #include "../../../modules/task_3/shemetov_p_sparse_matrix_CCS_complex/multi_matrix.h"
 
 
@@ -34,30 +35,30 @@ TEST(multi_matrix, TEST_NOT_SPARSE_MATRIX) {
 }
 
 TEST(multi_matrix, TEST_TIME_WITH_LARGE_NUMBERS_RANDOM_MATRIX) {
-    SparseMatrixCCS A(3200, 40, 0.8);
-    SparseMatrixCCS B(40, 1700, 0.8);
+    SparseMatrixCCS A(1000, 1000, 0.7);
+    SparseMatrixCCS B(1000, 2000, 0.7);
     A = A.transpose();
     B = B.transpose();
 
 
-    tbb::tick_count start2 = tbb::tick_count::now();
+    double start2 = omp_get_wtime();
     SparseMatrixCCS result2 = SparseMatrixCCS::MultiplySparseMatrix
     (A, B);
-    tbb::tick_count finish2 = tbb::tick_count::now();
-    printf("Time of multiply matrix without parallel %f in sec\n", (finish2-start2).seconds());
+    double finish2 = omp_get_wtime();
+    printf("Time of multiply matrix without parallel %f in sec\n", (finish2-start2));
 
-    tbb::tick_count start = tbb::tick_count::now();
+    double start = omp_get_wtime();
     SparseMatrixCCS result = SparseMatrixCCS::MultiplySparseMatrixTBB
     (A, B);
-    tbb::tick_count finish = tbb::tick_count::now();
-    printf("Time of quiksort with parallel %f in sec\n",(finish-start).seconds());
+    double finish = omp_get_wtime();
+    printf("Time of multiply with parallel %f in sec\n",(finish-start));
 
     // tbb::tick_count start3 = tbb::tick_count::now();
     // SparseMatrixCCS result3 = SparseMatrixCCS::MultiplySparseMatrixTBB
     // (A, B);
     // tbb::tick_count finish3 = tbb::tick_count::now();
     // printf("Time of multiply matrix with TBB step %f in sec\n", (finish3-start3).seconds());
-    ASSERT_NO_FATAL_FAILURE(SparseMatrixCCS::MultiplySparseMatrixTBB(A, B));
+    EXPECT_TRUE(result2 == result);
 }
 
 TEST(multi_matrix, CAN_CREATE_SPARSE_CCS_MATRIX) {
