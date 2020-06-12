@@ -56,7 +56,7 @@ SparseMatrixCCS::SparseMatrixCCS(size_t _m, size_t _n, double sparseness) {
     col_offsets.push_back(0);
     for (i = 0; i < m; i++) {
         for (j = 0; j < n; j++) {
-            if (vec[i][j].imag() != 0 || vec[i][j].real() != 0) {
+            if (vec[i][j].imag() != 0 || vec[i][j].real() != 1) {
                 col_offsets_count++;
                 value.push_back(vec[i][j]);
                 row_index.push_back(j);
