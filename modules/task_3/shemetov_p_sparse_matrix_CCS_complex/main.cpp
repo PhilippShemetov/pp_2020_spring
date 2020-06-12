@@ -35,7 +35,7 @@ TEST(multi_matrix, TEST_NOT_SPARSE_MATRIX) {
 
 TEST(multi_matrix, TEST_TIME_WITH_LARGE_NUMBERS_RANDOM_MATRIX) {
     SparseMatrixCCS A(40, 40, 0.8);
-    SparseMatrixCCS B(40, 40, 0.7);
+    SparseMatrixCCS B(40, 40, 0.8);
     A = A.transpose();
     B = B.transpose();
 

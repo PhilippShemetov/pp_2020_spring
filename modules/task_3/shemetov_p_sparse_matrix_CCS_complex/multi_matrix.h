@@ -20,7 +20,7 @@ class SparseMatrixCCS {
 
     SparseMatrixCCS(size_t m, size_t n, size_t nonezero);
 
-    SparseMatrixCCS(size_t m, size_t n, double sparsenes);
+    SparseMatrixCCS(size_t m, size_t n, double sparseness);
 
     SparseMatrixCCS(size_t _m, size_t _n,
                     std::vector <std::complex<double>> _value,
